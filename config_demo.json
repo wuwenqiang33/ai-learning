@@ -1,0 +1,5 @@
+{
+    "api_key": "XXXX",
+    "base_url": "https://apihub.agnes-ai.com/v1",
+    "model": "agnes-2.0-flash"
+}
