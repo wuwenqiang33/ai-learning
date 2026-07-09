@@ -16,9 +16,12 @@ from BigModelEmbedding import BigModelEmbeddingFunc
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 import json
+from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 
 # ========== 配置 ==========
-with open("config_bigmodel.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "config_bigmodel.json"), "r", encoding="utf-8") as f:
     config = json.load(f)
 
 EMBEDDING_KEY = config["embedding"]["api_key"]
@@ -35,14 +38,12 @@ TEST_QUERIES = [
 # ========== 实验配置 ==========
 # 每组: (splitter_name, splitter_instance)
 splitters = [
-    ("RecursiveCharacterTextSplitter (500/50)",
+    ("500_50",
      RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)),
-    ("RecursiveCharacterTextSplitter (800/100)",
+    ("800_100",
      RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)),
-    ("RecursiveCharacterTextSplitter (1000/200)",
-     RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)),
-    ("CharacterTextSplitter (500)",
-     CharacterTextSplitter(chunk_size=500, chunk_overlap=50)),
+    ("1000_200",
+     RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200))
 ]
 
 
@@ -69,11 +70,9 @@ def load_and_split(splitter, name):
 
 def evaluate_chunking(chunks, name, embeddings):
     """用简单检索+LLM判断来评估不同策略"""
-    db_path = f"./experiment_db_{name.replace('/', '_').replace(' ', '_')}"
-    if os.path.exists(db_path):
-        import shutil
-        shutil.rmtree(db_path)
-
+    safe_name = "".join(name)
+    db_path = f"./experiment_db_{safe_name}"
+    
     vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory=db_path)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
@@ -83,19 +82,22 @@ def evaluate_chunking(chunks, name, embeddings):
         api_key=DEEPSEEK_KEY,
         base_url=DEEPSEEK_URL,
     )
+    prompt = PromptTemplate.from_template("""请严格依据下面参考资料回答用户问题，给出回答的依据文件，不要编造内容：
+参考资料：{context}
+用户问题：{input}
+""")
+    # 构建 RAG 管道
+    rag_chain = (
+        {"context": retriever, "input": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
 
-    print(f"\n  各查询的 Top-3 检索结果:")
+    print(f"\n  {name}检索给大模型的回答结果:")
     for query in TEST_QUERIES:
-        results = retriever.invoke(query)
-        print(f"\n  查询: '{query}'")
-        for i, doc in enumerate(results):
-            preview = doc.page_content[:120].replace('\n', ' ')
-            print(f"    [{i+1}] {preview}...")
-
-    # 清理
-    import shutil
-    if os.path.exists(db_path):
-        shutil.rmtree(db_path)
+        result = rag_chain.invoke(query)
+        print("回答结果:", result)
 
 
 if __name__ == "__main__":
@@ -110,10 +112,10 @@ if __name__ == "__main__":
         evaluate_chunking(chunks, name, embeddings)
 
     print("\n" + "=" * 60)
-    print("实验完成。建议:")
-    print("  - chunk_size 太小 → 上下文碎片化，LLM 难以连贯理解")
-    print("  - chunk_size 太大 → 检索精度下降，混入无关信息")
-    print("  - chunk_overlap 太小 → 相邻块语义断裂")
-    print("  - chunk_overlap 太大 → 冗余增加，浪费 token")
-    print("  - 经验值: chunk_size=500~1000, overlap=50~200")
-    print("=" * 60)
+    print("实验完成")
+    # print("  - chunk_size 太小 → 上下文碎片化，LLM 难以连贯理解")
+    # print("  - chunk_size 太大 → 检索精度下降，混入无关信息")
+    # print("  - chunk_overlap 太小 → 相邻块语义断裂")
+    # print("  - chunk_overlap 太大 → 冗余增加，浪费 token")
+    # print("  - 经验值: chunk_size=500~1000, overlap=50~200")
+    # print("=" * 60)

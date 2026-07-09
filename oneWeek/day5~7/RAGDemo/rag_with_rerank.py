@@ -23,7 +23,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.documents import Document
 
 # ========== 配置 ==========
-with open("config_bigmodel.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "config_bigmodel.json"), "r", encoding="utf-8") as f:
     config = json.load(f)
 
 EMBEDDING_KEY = config["embedding"]["api_key"]

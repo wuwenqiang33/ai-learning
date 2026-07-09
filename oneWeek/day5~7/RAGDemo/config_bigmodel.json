@@ -1,13 +1,13 @@
 {
     "embedding":{
-    "api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "api_key": "xxxxxxxxxxxxxxxx",
     "base_url": "https://open.bigmodel.cn/api/paas/v4/embeddings",
     "model": "embedding-3"
 
     },
 
     "deepseek":{
-        "api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "api_key": "xxxxxxxxxxxxxxxx",
         "base_url": "https://api.deepseek.com",
         "model": "deepseek-v4-pro"
     },

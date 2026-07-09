@@ -17,7 +17,7 @@ class DeepSeekEmbeddingFunc(EmbeddingFunction):
         }
     def __call__(self,texts:Documents) -> Embeddings:
         try:
-            # 调用DeepSeek云端向量接口
+            # 调用智谱云端向量接口
             resp = requests.post(
                 url = self.base_url,
                 headers = self.headers,
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     with open(os.path.join(os.path.dirname(__file__), "config_bigmodel.json"), "r", encoding="utf-8") as f:
         config = json.load(f)
     # ========== 配置区 ==========
-    DEEPSEEK_KEY = config["api_key"]
+    DEEPSEEK_KEY = config["embedding"]["api_key"]
     # 持久化向量库文件夹
     CHROMA_DB_PATH = "./my_knowledge_base"
     COLLECTION_NAME = "article"
@@ -60,15 +60,15 @@ if __name__ == '__main__':
     )
 
     # 写入数据
-    # coll.add(
-    #     documents=[
-    #         "Chroma是轻量级向量数据库",
-    #         "DeepSeek API可以生成文本Embedding向量",
-    #         "RAG架构依靠向量库检索知识库"
-    #     ],
-    #     metadatas=[{"source": "note1"}, {"source": "note2"}, {"source": "note3"}],
-    #     ids=["id1", "id2", "id3"]
-    # )
+    coll.add(
+        documents=[
+            "Chroma是轻量级向量数据库",
+            "bigmodel API可以生成文本Embedding向量",
+            "RAG架构依靠向量库检索知识库"
+        ],
+        metadatas=[{"source": "note1"}, {"source": "note2"}, {"source": "note3"}],
+        ids=["id1", "id2", "id3"]
+    )
     # 更新数据
     coll.update(
         ids=["id1"],
