@@ -76,8 +76,6 @@ def simple_rerank(query: str, docs: list[Document], top_k: int = 2) -> list[Docu
 
     response = llm.invoke(rerank_prompt.format(query=query, doc_list=doc_list))
     import re
-    import json
-
     # 提取 JSON
     json_match = re.search(r'\[.*\]', response.content, re.DOTALL)
     if json_match:
@@ -142,7 +140,7 @@ def build_rag_with_rerank():
 def compare_with_without_rerank():
     """对比有/无 Rerank 的检索结果"""
 
-    docs = TextLoader("doc/kkfile.md", encoding="utf-8").load()
+    docs = TextLoader(os.path.join(os.path.dirname(__file__),"doc","kkfile.md"), encoding="utf-8").load()
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     chunks = splitter.split_documents(docs)
 
