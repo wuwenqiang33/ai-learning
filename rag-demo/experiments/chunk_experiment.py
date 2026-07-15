@@ -12,7 +12,7 @@ from langchain_text_splitters import (
     CharacterTextSplitter,
     MarkdownHeaderTextSplitter,
 )
-from BigModelEmbedding import BigModelEmbeddingFunc
+from lib.embedding import BigModelEmbeddingFunc
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 import json

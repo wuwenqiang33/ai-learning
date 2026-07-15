@@ -1,0 +1,15 @@
+{
+    "embedding": {
+        "api_key": "YOUR_EMBEDDING_API_KEY_HERE",
+        "base_url": "https://open.bigmodel.cn/api/paas/v4/embeddings",
+        "model": "embedding-3"
+    },
+    "deepseek": {
+        "api_key": "YOUR_DEEPSEEK_API_KEY_HERE",
+        "base_url": "https://api.deepseek.com",
+        "model": "deepseek-v4-pro"
+    },
+    "chroma": {
+        "persist_directory": "./output/chroma_db"
+    }
+}

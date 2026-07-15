@@ -1,0 +1,34 @@
+多格式文档解析测试 - 纯文本文件
+
+本节介绍 LangChain 多格式文档加载器的基本功能。
+
+LangChain is a framework for developing applications powered by large language models (LLMs).
+It simplifies the process of building AI applications by providing reusable components.
+朗格链是一个用于开发大型语言模型应用的框架。
+
+文档加载器支持以下功能：
+1. 自动检测文件格式并选择对应的加载器
+2. 统一的输出格式（Document 对象列表）
+3. 丰富的元数据支持（文件名、类型、加载时间）
+4. 批量加载能力（一次加载整个文件夹）
+
+In natural language processing, document parsing is a fundamental step.
+文档解析是自然语言处理中的基础步骤。
+
+The system uses a strategy pattern to route different file formats to appropriate loaders.
+系统使用策略模式将不同格式路由到相应的加载器。
+
+测试数据段落二：
+向量数据库（Vector Database）是 RAG 系统的核心组件之一。
+Vector databases are a key component of RAG systems.
+它们将文本转换为向量表示，支持高效的相似度搜索。
+They convert text into vector representations for efficient similarity search.
+
+测试数据段落三：
+Embedding 模型将非结构化文本转换为密集向量。
+Embedding models convert unstructured text into dense vectors.
+常用的 Embedding 模型包括 text-embedding-ada-002、bge-large-zh-v1.5 等。
+Common embedding models include text-embedding-ada-002, bge-large-zh-v1.5, and others.
+
+Thank you for using the Multi-Format Document Loader!
+感谢使用多格式文档加载器！
