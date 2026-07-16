@@ -48,7 +48,7 @@ print("\n[1] 加载多格式文档...")
 loader = MultiFormatDocumentLoader()
 
 doc_files = [
-    "docs/kkfile.md",
+    "docs/国务院关于《扩大消费“十五五”规划》的批复_国务院文件_中国政府网.pdf",
 ]
 
 all_docs = []
@@ -132,10 +132,10 @@ rag_chain = (
 # ── 5. 问答测试 ──
 print("\n[5] 问答测试...")
 questions = [
-    "kkFileView支持哪些文档格式？",
-    "kkFileView的官网地址是什么？",
-    "v5.0.0版本有什么新功能？",
+    "扩大消费“十五五”规划的总体要求有哪些？",
+    "大力优化消费环境是指什么？",
 ]
+    
 
 for question in questions:
     print(f"\n  Q: {question}")

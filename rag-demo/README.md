@@ -18,6 +18,8 @@ python steps/step04_chunk_exp.py   # Day 8:   Chunking 实验
 python steps/step05_rerank.py      # Day 9:   Rerank 重排序
 python steps/step06_multiformat.py # Day 10:  多格式最终版
 python steps/step07_pgvector.py    # Day 11-12: PgVector 生产级 RAG
+python steps/step08_ensemble.py    # Day 13:  混合检索（向量+BM25）
+python steps/step09_query_rewrite.py # Day 14: 查询改写（Query Expansion）
 ```
 
 ## 目录结构
@@ -41,6 +43,8 @@ rag-demo/
 │   ├── step05_rerank.py          # Rerank 重排序
 │   └── step06_multiformat.py     # 多格式最终版
 │   └── step07_pgvector.py        # PgVector 生产级 RAG
+│   ├── step08_ensemble.py        # 混合检索（向量+BM25）
+│   └── step09_query_rewrite.py   # 查询改写
 │
 ├── experiments/          # 🔬 实验性代码（探索用，不影响主线）
 ├── docs/                 # 📄 测试文档（PDF/Word/Markdown 等）
@@ -60,6 +64,8 @@ rag-demo/
 | Step 05 | Rerank 重排序 | Day 9 |
 | Step 06 | 多格式最终版 | Day 10 |
 | Step 07 | PgVector 生产级 RAG | Day 11-12 |
+| Step 08 | 混合检索（向量+BM25） | Day 13 |
+| Step 09 | 查询改写（Query Expansion） | Day 14 |
 
 ## 技术栈
 

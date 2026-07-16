@@ -28,6 +28,8 @@ from langchain_core.output_parsers import StrOutputParser
 
 from lib.embedding import BigModelEmbeddingFunc
 from lib.config import load_config
+from lib.loader import MultiFormatDocumentLoader
+
 
 # ── 加载配置 ──
 config = load_config()
@@ -40,16 +42,18 @@ DEEPSEEK_MODEL = config["deepseek"]["model"]
 PG_CONNECTION = (
     "postgresql://root:rootPassword@localhost:5432/rag_db"
 )
-COLLECTION_NAME = "kkfile_documents"
+COLLECTION_NAME = "org_documents"
 
 print("=" * 60)
 print("Step 07 — PgVector 完整 RAG 系统")
 print("=" * 60)
-
+loader = MultiFormatDocumentLoader()
 # ── 1. 加载文档 ──
 print("\n[1] 加载文档...")
-DOC_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "kkfile.md")
-docs = TextLoader(DOC_PATH, encoding="utf-8").load()
+# DOC_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "kkfile.md")
+DOC_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "国务院关于《扩大消费“十五五”规划》的批复_国务院文件_中国政府网.pdf")
+# docs = TextLoader(DOC_PATH, encoding="utf-8").load()
+docs = loader.load(DOC_PATH)
 print(f"    加载了 {len(docs)} 篇文档")
 
 # ── 2. 文本分割 ──
@@ -118,11 +122,16 @@ rag_chain = (
 
 # ── 5. 问答测试 ──
 print("\n[5] 问答测试...")
+# questions = [
+#     "kkFileView支持哪些文档格式？",
+#     "kkFileView的官网地址是什么？",
+#     "v5.0.0版本有什么新功能？",
+# ]
 questions = [
-    "kkFileView支持哪些文档格式？",
-    "kkFileView的官网地址是什么？",
-    "v5.0.0版本有什么新功能？",
+    "扩大消费“十五五”规划的总体要求有哪些？",
+    "大力优化消费环境是指什么？",
 ]
+   
 for q in questions:
     print(f"\n  Q: {q}")
     result = rag_chain.invoke(q)
@@ -138,7 +147,7 @@ retriever_filtered = vectorstore.as_retriever(
     },
 )
 
-filtered_result = retriever_filtered.invoke("kkFileView支持哪些文档格式？")
+filtered_result = retriever_filtered.invoke("扩大消费“十五五”规划的总体要求有哪些？")
 print(f"    过滤后检索到 {len(filtered_result)} 条相关文档")
 for i, doc in enumerate(filtered_result[:2]):
     print(f"    [{i+1}] 来源: {doc.metadata.get('source_file', 'N/A')}")
