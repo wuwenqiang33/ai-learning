@@ -20,6 +20,8 @@ python steps/step06_multiformat.py # Day 10:  多格式最终版
 python steps/step07_pgvector.py    # Day 11-12: PgVector 生产级 RAG
 python steps/step08_ensemble.py    # Day 13:  混合检索（向量+BM25）
 python steps/step09_query_rewrite.py # Day 14: 查询改写（Query Expansion）
+python steps/step10_function_calling.py # Day 15: Function Calling 手写 Agent
+python steps/step11_langchain_agent.py # Day 16: LangChain Agent
 ```
 
 ## 目录结构
@@ -45,6 +47,8 @@ rag-demo/
 │   └── step07_pgvector.py        # PgVector 生产级 RAG
 │   ├── step08_ensemble.py        # 混合检索（向量+BM25）
 │   └── step09_query_rewrite.py   # 查询改写
+│   ├── step10_function_calling.py # 手写 Agent 循环
+│   └── step11_langchain_agent.py  # LangChain Agent
 │
 ├── experiments/          # 🔬 实验性代码（探索用，不影响主线）
 ├── docs/                 # 📄 测试文档（PDF/Word/Markdown 等）
@@ -66,6 +70,8 @@ rag-demo/
 | Step 07 | PgVector 生产级 RAG | Day 11-12 |
 | Step 08 | 混合检索（向量+BM25） | Day 13 |
 | Step 09 | 查询改写（Query Expansion） | Day 14 |
+| Step 10 | Function Calling 手写 Agent | Day 15 |
+| Step 11 | LangChain Agent | Day 16 |
 
 ## 技术栈
 
